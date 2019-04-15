@@ -1,5 +1,5 @@
 # This is a main file 
-# It call individual functions to create different Bigip components
+# It calls individual functions to create different Bigip components
 
 # Sequence would be :
 
@@ -12,6 +12,7 @@
 from f5.bigip import ManagementRoot
 import sys,os
 from Create_Monitors import Create_Monitors
+from Migrate_Pools import Migrate_Pools
 
 # Source and Destination BigIP credentials
 # Extract from the enviornment Variables
@@ -39,10 +40,11 @@ d_F5_MGMT = ManagementRoot(d_BigIP_IP, d_Username, d_Password)
 
 
 Create_Monitors(s_F5_MGMT,d_F5_MGMT)
+Migrate_Pools(s_F5_MGMT,d_F5_MGMT)
+
 
 
 # TODO :
-# Migrate_Pools(s_F5_MGMT,d_F5_MGMT)
 # Create_Profiles(s_F5_MGMT,d_F5_MGMT)
 # Create_Virtual(F5_MGMT,Virtual_Config_Param)
 

@@ -1,0 +1,21 @@
+---
+
+
+- name: Setting up a Data Groups
+  hosts: "{{ hosts }}"
+  connection: local
+
+  tasks:
+      - name: Create Data Group
+        bigip_data_group:
+            server: "{{ bigip_server }}"
+            user: "{{ bigip_username }}"
+            password: "{{ bigip_password }}"
+            validate_certs: "{{ validate_certs }}"
+            state: present
+            external_file_name: "{{item.external_file_name}}"
+            name: "{{item.name}}"
+            records_src: "{{item.records_src}}"
+            type: string
+        delegate_to: localhost
+        with_items: "{{DataGroup_with_items}}"

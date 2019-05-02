@@ -5,9 +5,9 @@
 # 1. Create a FQDN node first
 # 2. Add that node to the pool
 
-# Good link for creating FQDN nodes
+# Good read for creating FQDN nodes
 # https://devcentral.f5.com/articles/creating-fqdn-nodes-via-icontrol-rest-24889
-# 
+
 
 def Create_FQDNPool(f5_mgmt,pool_payload):
 
@@ -20,7 +20,7 @@ def Create_FQDNPool(f5_mgmt,pool_payload):
 			fqdn={'tmName': pool_payload['members'][0]['tmName'] },\
 			partition='Common')
 
-	# Create a pool 
+	# Create a pool if it doesn't exists
 	if f5_mgmt.tm.ltm.pools.pool.exists(name=pool_payload['name']):
 		print ("Pool >> {} << exist ... skipping !!! ".format(pool_payload['name']))
 	else:

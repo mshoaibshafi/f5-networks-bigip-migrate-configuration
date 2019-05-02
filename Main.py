@@ -13,6 +13,10 @@ from f5.bigip import ManagementRoot
 import sys,os
 from Create_Monitors import Create_Monitors
 from Migrate_Pools import Migrate_Pools
+from migrate_virtuals import migrate_virtuals
+from Extract_DataGroup import Extract_DataGroup
+from Compare_Configs import Compare_Configs
+from Migrate_Users import Migrate_Users
 
 # Source and Destination BigIP credentials
 # Extract from the enviornment Variables
@@ -34,18 +38,35 @@ d_Password = os.environ.get('d_Password')
 
 
 # Create source and dest BigIP Mgmt pointers
-s_F5_MGMT = ManagementRoot(s_BigIP_IP,s_Username,s_Password)
-d_F5_MGMT = ManagementRoot(d_BigIP_IP, d_Username, d_Password)
+try:
+	s_F5_MGMT = ManagementRoot(s_BigIP_IP,s_Username,s_Password)
+	d_F5_MGMT = ManagementRoot(d_BigIP_IP, d_Username, d_Password)
+except:
+	print("Error: -- \n Please make sure environment variables for BigIP IP, Username and Password are set correctly! \n")
+	sys.exit()
 
 
 
+# Migrate Monitors from Source BigIP to Dest BigIP
+# These moniors are used by Pools including ones contains FQDN as their pool members
 Create_Monitors(s_F5_MGMT,d_F5_MGMT)
+input("Monitors created ")
+
+# Migrate Pools 
 Migrate_Pools(s_F5_MGMT,d_F5_MGMT)
+input("Pools created ")
 
 
+# Migrate Virtual Servers along with their Persistence Profiles, iRules, Data Groups 
+migrate_virtuals(s_F5_MGMT,d_F5_MGMT)
+input("Virtual created ")
 
-# TODO :
-# Create_Profiles(s_F5_MGMT,d_F5_MGMT)
-# Create_Virtual(F5_MGMT,Virtual_Config_Param)
 
+# Migrate users
+Migrate_Users(s_F5_MGMT,d_F5_MGMT)
+input("Users Created")
+
+# Compare Pools
+Compare_Configs(s_F5_MGMT,d_F5_MGMT)
+input("Configs ready to compare ")
 

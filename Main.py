@@ -36,6 +36,28 @@ d_BigIP_IP = os.environ.get('d_BigIP_IP')
 d_Username = os.environ.get('d_Username')
 d_Password = os.environ.get('d_Password')
 
+# Verify if required directory structure exists prior to start.
+# If it doesn't then create one 
+
+if not os.path.isdir("data"):
+	print ("\nError: \"data\" folder is required for the successful execution of this script! ")
+	input("Press any to create one ... ")
+	os.makedirs("data")
+
+if not os.path.isdir("ansible"):
+	print ("\nError: \"ansible\" folder is required for the successful execution of this script! ")
+	input("Press any to create one ... ")
+	os.makedirs("ansible")
+
+if not os.path.isdir("ansible/inv"):
+	print ("\nError: \"ansible/inv\" folder is required for the successful execution of this script! ")
+	input("Press any to create one ... ")
+	os.makedirs("ansible/inv")
+
+if not os.path.isdir("ansible/group_vars"):
+	print ("\nError: \"ansible/group_vars\" folder is required for the successful execution of this script! ")
+	input("Press any to create one ... ")
+	os.makedirs("ansible/group_vars")
 
 # Create source and dest BigIP Mgmt pointers
 try:

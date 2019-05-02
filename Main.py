@@ -64,7 +64,8 @@ try:
 	s_F5_MGMT = ManagementRoot(s_BigIP_IP,s_Username,s_Password)
 	d_F5_MGMT = ManagementRoot(d_BigIP_IP, d_Username, d_Password)
 except:
-	print("Error: -- \n Please make sure environment variables for BigIP IP, Username and Password are set correctly! \n")
+	print("Error: -- \n Please make sure environment variables for BigIP IP, Username and Password are set correctly!")
+	print(" Sample shell script to set env variable is included - export_env.sh \n")
 	sys.exit()
 
 

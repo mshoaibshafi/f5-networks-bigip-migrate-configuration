@@ -86,10 +86,10 @@ input("Virtual created ")
 
 
 # Migrate users
-Migrate_Users(s_F5_MGMT,d_F5_MGMT)
-input("Users Created")
+## Migrate_Users(s_F5_MGMT,d_F5_MGMT)
+## input("Users Created")
 
 # Compare Pools
-Compare_Configs(s_F5_MGMT,d_F5_MGMT)
-input("Configs ready to compare ")
+## Compare_Configs(s_F5_MGMT,d_F5_MGMT)
+## input("Configs ready to compare ")
 

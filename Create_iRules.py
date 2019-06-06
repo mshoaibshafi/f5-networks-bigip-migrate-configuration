@@ -6,7 +6,6 @@ import sys
 from pprint import pprint
 
 def Create_iRules(s_f5_mgmt,d_f5_mgmt,irules):
-	print ("You are in Create iRules Profile  Function !!!")
 
 	# Extract the irule name from the list virtual.rules coming as irules
 	rule_name = irules[0].split('/')[2]

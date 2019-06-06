@@ -82,7 +82,7 @@ input("Pools created ")
 
 # Migrate Virtual Servers along with their Persistence Profiles, iRules, Data Groups 
 migrate_virtuals(s_F5_MGMT,d_F5_MGMT)
-input("Virtual created ")
+input("Virtual Servers created ")
 
 
 # Migrate users

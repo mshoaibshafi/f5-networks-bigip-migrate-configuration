@@ -1,10 +1,10 @@
 ### f5-networks-bigip-migrate-configuration
 
-	There are severals (may be) easier ways to migrate bigip configuration from one unit to another, but i chose to use python, f5-sdk and asible to accomplish this task.
+	There are severals (may be) easier ways to migrate bigip configuration from one unit to another, but i chose to use python, f5-sdk and ansible to accomplish this task.
 
 ### Executive Summary 
-	If you want to migrate BigIP configurations from one unit to a second unit then this repo will help you out.
-	It is design in a way to transfer different bigip components ( monitors, pools, virtuals, data groups, users etc.) using independent fuctions
+	If you want to migrate BigIP configurations from one unit to a another(new) unit then this repo will help you out.
+	It is design in a way to transfer different bigip components ( monitors, pools, virtuals, data groups, users etc.) using independent python functions
 
 ### Environment
 	1. f5-sdk : 3.0.14
@@ -63,27 +63,34 @@
 		This will read all virtual servers from source bigip
 		Fill up virtual payload with basic attributes
 		Check for Persistence Profile, if exists then call fucntion Create_PersistenceProfile(...)
+
 		- Function : Create_PersistenceProfile(...)
 			Check for Cookie profiles, if doesn't exists then load from source BigIP and create on destination BigIP
-		Check for rules, if attached then call function Create_iRules(...)
+			Check for rules, if attached then call function Create_iRules(...)
+
 		- Function : Create_iRules(...)
 			Check if iRules exists on the destination bigip, if not then read it from source and create on the destination bigip
 			Also save the irules in the "data" folders to be scanned for any embedded data groups
 			Call function Search_Datagroups(...) to scan iRules and look for data groups
+
 			- Function : Search_Datagroups(...)
-				Search Data Groups and return the name of Data Groups if found
-			Call function Extract_DataGroup(...) to extract all data groups
+				Search Data Groups and return the name of Data Groups if found ( both internal and external data groups)
+				Check if the data group is internal then call Create_Internal_DataGroup(...) to extract and create one
+				If data group is external then call function Extract_DataGroup(...) to extract all data groups
+
 			- Function : Extract_DataGroup (...)
 				Check if DG exists on the source BigIP
 				download the contents and save locally in the 'data' folder
-			Call Create Data Groups to create all data groups extracted in the above function
+				Call Create Data Groups to create all data groups extracted in the above function
+
 			- Function : Create_DataGroups(...)
 				I ran into a problem creating data group using f5-sdk. But found bigip ansible module to create datagroups
-				So this function basically create an ansible script and pause while requesting to run an ansible script from a second window
+				So this function basically create an ansible script and pause while requesting to run an ansible script from a second terminal window
 				This script also hard coded ansible variables
 		Now iRules can be safely attached with the Virtual server, so add irules into virtual payload
 		Next is to go through all the profiles attached to the virtual and add in the virtual payload
 		Now Virtual payload has been updated with all the required elements and its time to create a virtual server on the destination bigip
+
 		- Function : Create_Virtual(...)
 			This will be called with destination bigip and virtual payload to create one 
 			It will check if one exists prior to create one.

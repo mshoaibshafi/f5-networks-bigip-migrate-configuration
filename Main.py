@@ -41,22 +41,22 @@ d_Password = os.environ.get('d_Password')
 
 if not os.path.isdir("data"):
 	print ("\nError: \"data\" folder is required for the successful execution of this script! ")
-	input("Press any to create one ... ")
+	input("Press any key to create one ... ")
 	os.makedirs("data")
 
 if not os.path.isdir("ansible"):
 	print ("\nError: \"ansible\" folder is required for the successful execution of this script! ")
-	input("Press any to create one ... ")
+	input("Press any key to create one ... ")
 	os.makedirs("ansible")
 
 if not os.path.isdir("ansible/inv"):
 	print ("\nError: \"ansible/inv\" folder is required for the successful execution of this script! ")
-	input("Press any to create one ... ")
+	input("Press any key to create one ... ")
 	os.makedirs("ansible/inv")
 
 if not os.path.isdir("ansible/group_vars"):
 	print ("\nError: \"ansible/group_vars\" folder is required for the successful execution of this script! ")
-	input("Press any to create one ... ")
+	input("Press any key to create one ... ")
 	os.makedirs("ansible/group_vars")
 
 # Create source and dest BigIP Mgmt pointers
@@ -73,23 +73,23 @@ except:
 # Migrate Monitors from Source BigIP to Dest BigIP
 # These moniors are used by Pools including ones contains FQDN as their pool members
 Create_Monitors(s_F5_MGMT,d_F5_MGMT)
-input("Monitors created ")
+input("-- Monitors created ")
 
 # Migrate Pools 
 Migrate_Pools(s_F5_MGMT,d_F5_MGMT)
-input("Pools created ")
+input("-- Pools created ")
 
 
 # Migrate Virtual Servers along with their Persistence Profiles, iRules, Data Groups 
 migrate_virtuals(s_F5_MGMT,d_F5_MGMT)
-input("Virtual Servers created ")
+input("-- Virtual Servers created ")
 
 
 # Migrate users
 Migrate_Users(s_F5_MGMT,d_F5_MGMT)
-input("Users Created")
+input("-- Users Created")
 
 # Compare Pools
 Compare_Configs(s_F5_MGMT,d_F5_MGMT)
-input("Configs ready to compare ")
+input("-- Configs ready to compare ")
 

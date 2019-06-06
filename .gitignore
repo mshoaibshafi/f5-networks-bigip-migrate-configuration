@@ -1,0 +1,11 @@
+*_pac_*
+pac_*
+p
+__pycache__/
+data/*
+data
+dg
+*.retry
+.vscode/*
+ansible/group_vars/*
+ansible/inv/*

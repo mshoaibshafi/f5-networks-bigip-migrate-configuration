@@ -2,7 +2,7 @@
 
 export s_BigIP_IP=10.10.100.1
 export s_Username=ansible
-export s_Password=password_1
+export s_Password=secretpassword
 
 
 export d_BigIP_IP=10.10.100.2

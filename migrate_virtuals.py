@@ -25,6 +25,8 @@ from Create_iRules import Create_iRules
 from Search_Datagroups import Search_Datagroups
 from Create_DataGroups import Create_DataGroups
 from Extract_DataGroup import Extract_DataGroup
+from Create_Internal_DataGroup import Create_Internal_DataGroup
+
 
 def migrate_virtuals(s_f5_mgmt,d_f5_mgmt):
 	# Temp dictonary to hold virtual specific information
@@ -88,22 +90,26 @@ def migrate_virtuals(s_f5_mgmt,d_f5_mgmt):
 			if not 'False' in datagroup_list:
 				# Now we have a list of Data Group Names
 				for dg in datagroup_list:
+					
+					# Check if data group is an Internal then create one 
 
-					# Call extract DG contents for each data group and extract its contents
+					if s_f5_mgmt.tm.ltm.data_group.internals.internal.exists(name=dg):
+						#print ("This is an internal data group {} ... creating ".format(dg))
+						Create_Internal_DataGroup(s_f5_mgmt,d_f5_mgmt,dg)
+						continue
+
+					# Its an external Data Group, extract its contents. 
 					Extract_DataGroup(s_f5_mgmt,dg)
 
-				# Now all data groups are extracted and saved under data folder 
-				# Call create data group to create on the destination bigip using ansible 	
 
-				# Also facing problems creating datagroups using f5-sdk 
-				# ansible is used to create data groups 
+				# Now all external data groups are extracted and saved under data folder 
+				# Call create data group to create on the destination bigip 	
+
+				# Faced problems creating datagroups using f5-sdk 
+				# hence ansible is used 
 				# create ansible config file and then run it separatly 
 				Create_DataGroups(d_f5_mgmt,datagroup_list,virtual.name)
 
-
-			#input("Verify if all data groups are created ....")
-
-			#continue
 
 			virtual_payload['rules'] = virtual.rules
 
